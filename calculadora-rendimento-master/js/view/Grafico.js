@@ -1,6 +1,6 @@
 class Grafico {
     constructor(resultadoAnalise, analizarTempo) {
-        this._anlTempo = analizarTempo; //new AnalizarTempo(quebrarCaracteres[0], quebrarCaracteres[1]);
+        this._anlTempo = analizarTempo;
         this._resultadoAnalise = resultadoAnalise;
         this._grafico = document.getElementById('grafico');
         this._grafico.innerHTML = '';
@@ -9,7 +9,6 @@ class Grafico {
     }
 
     _meses() {
-        console.log(this._anlTempo.getMeses().length);
         for (let i = 0; i < this._anlTempo.getMeses().length; i++) {
             let left = (i*60)+15;
             let exbirMeses = '<div class="mes" style="left:'+left+'px;">'+this._anlTempo.getMeses()[i]+'</div>';
@@ -19,7 +18,6 @@ class Grafico {
 
     _crescimento() {
         let totalMeses = this._anlTempo.getTotalMeses();
-        console.log(totalMeses);
         for (let i = 0; i < this._anlTempo.getTotalMeses(); i++) {
             totalMeses--;
             let left = (i*60)+15;
