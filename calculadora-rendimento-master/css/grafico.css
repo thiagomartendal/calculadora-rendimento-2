@@ -1,0 +1,29 @@
+#grafico {
+    border: 1px solid #000;
+    width: 1000px;
+    height: 300px;
+    position: relative;
+    overflow: scroll;
+}
+
+#grafico .dado{
+    border:1px solid #000;
+    width: 50px;
+    position: absolute;
+    top: 25px;
+}
+
+#grafico .mes{
+    width: 50px;
+    position: absolute;
+    top: 5px;
+    font-size: 10px;
+    font-weight: bolder;
+}
+
+#grafico .valor{
+    width: 50px;
+    position: absolute;
+    font-size: 13px;
+    font-weight: bolder;
+}
