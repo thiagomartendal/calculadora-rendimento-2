@@ -47,6 +47,8 @@
     <button class="btn btn-primary comprar" type="submit">Comprar</button>
 
     <button class="btn btn-primary venderTudo" type="button" onclick="tituloController.apagaTudo()">Vender tudo</button>
+
+    <button class="btn btn-primary exportar" type="button" onclick="tituloController.exportarTitulos()">Exportar</button>
   </form>
   
   <div class="text-center">
@@ -67,10 +69,12 @@
   <script src="js/helpers/Filter.js"></script>
   <script src="js/helpers/Analise.js"></script>
   <script src="js/helpers/AnalizarTempo.js"></script>
+  <script src="js/helpers/ProxyFactory.js"></script>
+  <script src="js/helpers/Bind.js"></script>
   <script>
     let tituloController = new TituloController();
     const filtro = document.querySelector('#filtro');
-    filtro.addEventListener('input', Filtro.filtrar);
+    filtro.addEventListener('input', Filtro.filtrar)
   </script>
 </body>
 

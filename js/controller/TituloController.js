@@ -7,21 +7,24 @@ class TituloController {
     this._inputValor = $("#valor");
     this._inputTipo = $("#tipo");
     this._ordemAtual = "";
-
-    // Instancia das outras classes
-    this._listaTitulos = new ListaTitulo();
-    this._titulosView = new TitulosView($("#titulosView"));
-    this._simulacaoView = new SimulacaoView($("#dialog"));
-
-    // Chamamos a view pela primeira vez, vazia.
-    this._titulosView.update(this._listaTitulos);
     this._id = 0; // ID para o controle dos titulos
+
     this._tituloSimulado = {
       data: "",
       quantidade: 0,
       valor: 0,
       tipo: ""
     };
+
+    this._titulosView = new TitulosView($("#titulosView"));
+    this._simulacaoView = new SimulacaoView($("#dialog"));
+
+    // Usamos binds para criar uma relação entre o modelo e a sua view.
+    this._listaTitulos = new Bind(
+      new ListaTitulo(),
+      this._titulosView,
+      "adiciona"
+    );
   }
 
   // Metodo para comprar um novo título.
@@ -30,7 +33,6 @@ class TituloController {
 
     this._listaTitulos.adiciona(this._criaTitulo());
     this._id++;
-    this._titulosView.update(this._listaTitulos); // Atualizamos a view quando um novo método é criado.
     this._limpaFormulario(); // Limpa o formulario apos criar um novo titulo.
   }
 
@@ -109,9 +111,15 @@ class TituloController {
     );
     rendimento.innerHTML = resultadoAnalise;
     simulacao.appendChild(rendimento);
-    
-    const analizarTempo = new AnalizarTempo(dataFinal.split('-')[0], dataFinal.split('-')[1]);
-    const grafico = new Grafico(parseInt(resultadoAnalise.split(': ')[1]), analizarTempo);
+
+    const analizarTempo = new AnalizarTempo(
+      dataFinal.split("-")[0],
+      dataFinal.split("-")[1]
+    );
+    const grafico = new Grafico(
+      parseInt(resultadoAnalise.split(": ")[1]),
+      analizarTempo
+    );
   }
 
   abrirSimulacao(e) {
@@ -139,5 +147,38 @@ class TituloController {
     e.preventDefault();
 
     e.target.parentNode.remove();
+  }
+
+  exportarTitulos(e) {
+    // Array de objetos
+    let itensFormatados = [];
+    const titulos = this._listaTitulos.titulos;
+
+    for (let titulo of titulos) {
+      let obj = {
+        data: titulo.data,
+        quantidade: titulo.quantidade,
+        valor: titulo.valor,
+        tipo: titulo.tipo,
+        volume: titulo.volume
+      };
+
+      itensFormatados.push(obj);
+    }
+
+    const jsonObj = JSON.stringify(itensFormatados);
+    let nomeArquivo = "export.json";
+    let blob = new Blob([jsonObj]);
+    let link = document.createElement("a");
+
+    if (link.download !== undefined) {
+        const url = URL.createObjectURL(blob);
+        link.setAttribute("href", url);
+        link.setAttribute("download", nomeArquivo);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
   }
 }

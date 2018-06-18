@@ -1,1 +1,2 @@
-# calculadora-rendimento-2
+# calculadora-rendimento
+Trabalho da Disciplina de Engenharia de Software I.

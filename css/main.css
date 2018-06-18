@@ -7,11 +7,9 @@ body {
   margin-top: 1rem;
 }
 
-.comprar {
-  margin-top: 1rem;
-}
-
-.venderTudo {
+.comprar,
+.venderTudo,
+.exportar {
   margin-top: 1rem;
 }
 
@@ -66,6 +64,7 @@ body {
 
 .simulacao p {
   font-weight: bold;
+  margin: 10px 0;
 }
 
 .simulacao button {
