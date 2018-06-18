@@ -1,6 +1,5 @@
 class AnalizarTempo {
     constructor(anoSelecionado, mesSelecionado) {
-        console.log(anoSelecionado+' '+mesSelecionado);
         this._anoSelecionado = anoSelecionado;
         this._mesSelecionado = mesSelecionado;
         let dataAtual = new Date();

@@ -16,14 +16,13 @@ class TituloController {
       tipo: ""
     };
 
-    this._titulosView = new TitulosView($("#titulosView"));
     this._simulacaoView = new SimulacaoView($("#dialog"));
 
     // Usamos binds para criar uma relação entre o modelo e a sua view.
     this._listaTitulos = new Bind(
       new ListaTitulo(),
-      this._titulosView,
-      "adiciona"
+      this._titulosView = new TitulosView($("#titulosView")),
+      "adiciona", "ordena", "inverteOrdem", "venderTudo", "vender"
     );
   }
 
@@ -59,16 +58,11 @@ class TituloController {
     target.classList.add("fadeOut");
 
     this._listaTitulos.vender(id);
-
-    setTimeout(() => {
-      this._titulosView.update(this._listaTitulos);
-    }, 500);
   }
 
   // Metodo de venda de todos os titulos.
   apagaTudo() {
     this._listaTitulos.venderTudo();
-    this._titulosView.update(this._listaTitulos);
   }
 
   _limpaFormulario() {
@@ -77,16 +71,13 @@ class TituloController {
     this._inputData.focus();
   }
 
-  // TO-DO: Arrumar ordenação.
   ordena(coluna) {
     if (this._ordemAtual == coluna) {
       this._listaTitulos.inverteOrdem();
     } else {
       this._listaTitulos.ordena((a, b) => a[coluna] - b[coluna]);
     }
-
     this._ordemAtual = coluna;
-    this._titulosView.update(this._listaTitulos);
   }
 
   simular(e) {
@@ -124,7 +115,6 @@ class TituloController {
 
   abrirSimulacao(e) {
     e.preventDefault();
-
     this._simulacaoView.update(this._listaTitulos);
 
     const td = e.target.parentNode;
@@ -166,19 +156,6 @@ class TituloController {
       itensFormatados.push(obj);
     }
 
-    const jsonObj = JSON.stringify(itensFormatados);
-    let nomeArquivo = "export.json";
-    let blob = new Blob([jsonObj]);
-    let link = document.createElement("a");
-
-    if (link.download !== undefined) {
-        const url = URL.createObjectURL(blob);
-        link.setAttribute("href", url);
-        link.setAttribute("download", nomeArquivo);
-        link.style.visibility = 'hidden';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
+    Exporter.exportItems(itensFormatados);
   }
 }
